@@ -495,6 +495,14 @@ try {
       evt.putProxy(psddl_hdf2psana::Epix::make_ElementV1(schema_version, group, idx, cfgPtr), src);
     }
     break;
+  case 2914045210:
+    // Epix::ElementV3
+    if (boost::shared_ptr<Psana::Epix::Config100aV1> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Epix::make_ElementV3(schema_version, group, idx, cfgPtr), src);
+    } else if (boost::shared_ptr<Psana::Epix::Config100aV2> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Epix::make_ElementV3(schema_version, group, idx, cfgPtr), src);
+    }
+    break;
   case 2914045211:
     // Epix::ElementV2
     if (boost::shared_ptr<Psana::Epix::Config100aV1> cfgPtr = cfgStore.get(src)) {

@@ -944,8 +944,11 @@ struct dataset_config {
   ~dataset_config();
 
   uint32_t version;
-  uint32_t runTrigDelay;
-  uint32_t daqTrigDelay;
+  uint32_t usePgpEvr;
+  uint32_t evrRunCode;
+  uint32_t evrDaqCode;
+  uint32_t evrRunTrigDelay;
+  uint32_t epixRunTrigDelay;
   uint32_t dacSetting;
   uint8_t asicGR;
   uint8_t asicAcq;
@@ -974,6 +977,10 @@ struct dataset_config {
   uint32_t adcClkHalfT;
   uint32_t asicR0Width;
   uint32_t adcPipelineDelay;
+  uint32_t adcPipelineDelay0;
+  uint32_t adcPipelineDelay1;
+  uint32_t adcPipelineDelay2;
+  uint32_t adcPipelineDelay3;
   uint16_t SyncWidth;
   uint16_t SyncDelay;
   uint32_t prepulseR0Width;
@@ -1026,8 +1033,11 @@ public:
     : m_group(group), m_idx(idx) {}
   virtual ~Config100aV2_v0() {}
   virtual uint32_t version() const;
-  virtual uint32_t runTrigDelay() const;
-  virtual uint32_t daqTrigDelay() const;
+  virtual uint32_t usePgpEvr() const;
+  virtual uint32_t evrRunCode() const;
+  virtual uint32_t evrDaqCode() const;
+  virtual uint32_t evrRunTrigDelay() const;
+  virtual uint32_t epixRunTrigDelay() const;
   virtual uint32_t dacSetting() const;
   virtual uint8_t asicGR() const;
   virtual uint8_t asicAcq() const;
@@ -1056,6 +1066,10 @@ public:
   virtual uint32_t adcClkHalfT() const;
   virtual uint32_t asicR0Width() const;
   virtual uint32_t adcPipelineDelay() const;
+  virtual uint32_t adcPipelineDelay0() const;
+  virtual uint32_t adcPipelineDelay1() const;
+  virtual uint32_t adcPipelineDelay2() const;
+  virtual uint32_t adcPipelineDelay3() const;
   virtual uint16_t SyncWidth() const;
   virtual uint16_t SyncDelay() const;
   virtual uint32_t prepulseR0Width() const;
@@ -1264,6 +1278,77 @@ void make_datasets(const Psana::Epix::ElementV2& obj, hdf5pp::Group group, const
 /// negative index means append to the end of dataset. If pointer to object is zero then
 /// datsets are extended with zero-filled of default-initialized data.
 void store_at(const Psana::Epix::ElementV2* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
+
+namespace ns_ElementV3_v0 {
+struct dataset_data {
+  static hdf5pp::Type native_type();
+  static hdf5pp::Type stored_type();
+
+  dataset_data();
+  dataset_data(const Psana::Epix::ElementV3& psanaobj);
+  ~dataset_data();
+
+  uint8_t vc;
+  uint8_t lane;
+  uint16_t acqCount;
+  uint32_t frameNumber;
+  uint32_t ticks;
+  uint32_t fiducials;
+  uint32_t lastWord;
+
+
+};
+}
+
+
+template <typename Config>
+class ElementV3_v0 : public Psana::Epix::ElementV3 {
+public:
+  typedef Psana::Epix::ElementV3 PsanaType;
+  ElementV3_v0() {}
+  ElementV3_v0(hdf5pp::Group group, hsize_t idx, const boost::shared_ptr<Config>& cfg)
+    : m_group(group), m_idx(idx), m_cfg(cfg) {}
+  virtual ~ElementV3_v0() {}
+  virtual uint8_t vc() const;
+  virtual uint8_t lane() const;
+  virtual uint16_t acqCount() const;
+  virtual uint32_t frameNumber() const;
+  virtual uint32_t ticks() const;
+  virtual uint32_t fiducials() const;
+  virtual ndarray<const uint16_t, 2> frame() const;
+  virtual ndarray<const uint16_t, 2> calibrationRows() const;
+  virtual ndarray<const uint32_t, 2> environmentalRows() const;
+  virtual ndarray<const uint16_t, 1> temperatures() const;
+  virtual uint32_t lastWord() const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  boost::shared_ptr<Config> m_cfg;
+  mutable boost::shared_ptr<Epix::ns_ElementV3_v0::dataset_data> m_ds_data;
+  void read_ds_data() const;
+  mutable ndarray<const uint16_t, 2> m_ds_frame;
+  void read_ds_frame() const;
+  mutable ndarray<const uint16_t, 2> m_ds_calibrationRows;
+  void read_ds_calibrationRows() const;
+  mutable ndarray<const uint32_t, 2> m_ds_environmentalRows;
+  void read_ds_environmentalRows() const;
+  mutable ndarray<const uint16_t, 1> m_ds_temperatures;
+  void read_ds_temperatures() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Epix::ElementV3> > make_ElementV3(int version, hdf5pp::Group group, hsize_t idx, const boost::shared_ptr<Psana::Epix::Config100aV1>& cfg);
+boost::shared_ptr<PSEvt::Proxy<Psana::Epix::ElementV3> > make_ElementV3(int version, hdf5pp::Group group, hsize_t idx, const boost::shared_ptr<Psana::Epix::Config100aV2>& cfg);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Epix::ElementV3& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Epix::ElementV3& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Epix::ElementV3* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
 } // namespace Epix
 } // namespace psddl_hdf2psana
