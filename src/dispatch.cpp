@@ -35,6 +35,7 @@
 #include "psddl_hdf2psana/oceanoptics.ddl.h"
 #include "psddl_hdf2psana/timetool.ddl.h"
 #include "psddl_hdf2psana/lusi.ddl.h"
+#include "psddl_hdf2psana/andor3d.ddl.h"
 #include "psddl_hdf2psana/acqiris.ddl.h"
 #include "psddl_hdf2psana/rayonix.ddl.h"
 #include "psddl_hdf2psana/epix.ddl.h"
@@ -413,6 +414,12 @@ try {
       evt.putProxy(psddl_hdf2psana::EpixSampler::make_ElementV1(schema_version, group, idx, cfgPtr), src);
     }
     break;
+  case 2143487294:
+    // Andor3d::FrameV1
+    if (boost::shared_ptr<Psana::Andor3d::ConfigV1> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Andor3d::make_FrameV1(schema_version, group, idx, cfgPtr), src);
+    }
+    break;
   case 2160030172:
     // ControlData::ConfigV2
     cfgStore.putProxy(psddl_hdf2psana::ControlData::make_ConfigV2(schema_version, group, idx), src);
@@ -428,6 +435,10 @@ try {
   case 2196756248:
     // EpixSampler::ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::EpixSampler::make_ConfigV1(schema_version, group, idx), src);
+    break;
+  case 2215517545:
+    // Andor3d::ConfigV1
+    cfgStore.putProxy(psddl_hdf2psana::Andor3d::make_ConfigV1(schema_version, group, idx), src);
     break;
   case 2244450246:
     // Epix::Config10KV1
