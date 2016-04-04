@@ -578,6 +578,10 @@ try {
     // Acqiris::TdcDataV1
     evt.putProxy(psddl_hdf2psana::Acqiris::make_TdcDataV1(schema_version, group, idx), src);
     break;
+  case 3055861455:
+    // UsdUsb::FexDataV1
+    evt.putProxy(psddl_hdf2psana::UsdUsb::make_FexDataV1(schema_version, group, idx), src);
+    break;
   case 3110430406:
     // Bld::BldDataPimV1
     evt.putProxy(psddl_hdf2psana::Bld::make_BldDataPimV1(schema_version, group, idx), src);
@@ -740,6 +744,10 @@ try {
   case 4207593794:
     // Pulnix::TM6740ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Pulnix::make_TM6740ConfigV1(schema_version, group, idx), src);
+    break;
+  case 4209408661:
+    // UsdUsb::FexConfigV1
+    cfgStore.putProxy(psddl_hdf2psana::UsdUsb::make_FexConfigV1(schema_version, group, idx), src);
     break;
   case 4219576590:
     // Camera::FrameFccdConfigV1

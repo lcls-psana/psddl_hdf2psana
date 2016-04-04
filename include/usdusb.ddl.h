@@ -10,6 +10,48 @@
 #include "psddl_hdf2psana/ChunkPolicy.h"
 namespace psddl_hdf2psana {
 namespace UsdUsb {
+boost::shared_ptr<PSEvt::Proxy<Psana::UsdUsb::FexConfigV1> > make_FexConfigV1(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::UsdUsb::FexConfigV1& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::UsdUsb::FexConfigV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::UsdUsb::FexConfigV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
+
+
+class FexDataV1_v0 : public Psana::UsdUsb::FexDataV1 {
+public:
+  typedef Psana::UsdUsb::FexDataV1 PsanaType;
+  FexDataV1_v0() {}
+  FexDataV1_v0(hdf5pp::Group group, hsize_t idx)
+    : m_group(group), m_idx(idx) {}
+  FexDataV1_v0(const ndarray<const double, 1>& ds) : m_ds_encoder_values(ds) {}
+  virtual ~FexDataV1_v0() {}
+  virtual ndarray<const double, 1> encoder_values() const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  mutable ndarray<const double, 1> m_ds_encoder_values;
+  void read_ds_encoder_values() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::UsdUsb::FexDataV1> > make_FexDataV1(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::UsdUsb::FexDataV1& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::UsdUsb::FexDataV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::UsdUsb::FexDataV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
 
 namespace ns_ConfigV1_v0 {
 struct dataset_config {

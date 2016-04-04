@@ -22,6 +22,8 @@
 #include "hdf5pp/CompoundType.h"
 #include "hdf5pp/EnumType.h"
 #include "hdf5pp/Utils.h"
+#include "PSEvt/DataProxy.h"
+#include "psddl_hdf2psana/Exceptions.h"
 
 //-----------------------------------------------------------------------
 // Local Macros, Typedefs, Structures, Unions and Forward Declarations --
@@ -44,6 +46,103 @@ namespace {
 
 namespace psddl_hdf2psana {
 namespace UsdUsb {
+
+// ===============================================================
+//      UsbUsd::FexConfigV1 schema version 0
+// ===============================================================
+
+ndarray<const int32_t, 1> FexConfigV1_v0::offset() const {
+  if (m_ds_offset.empty()) read_ds_offset();
+  return m_ds_offset;
+}
+
+ndarray<const double, 1> FexConfigV1_v0::scale() const {
+  if (m_ds_scale.empty()) read_ds_scale();
+  return m_ds_scale;
+}
+
+const char* FexConfigV1_v0::name(uint32_t i0) const {
+  if (m_ds_name.empty()) read_ds_name();
+  return m_ds_name.at(i0).c_str();
+}
+
+std::vector<int>  FexConfigV1_v0::name_shape() const {
+  if (m_ds_name.empty()) read_ds_name();
+  std::vector<int> shape(1);
+  shape.at(0) = m_ds_name.size();
+  return shape;
+}
+
+void FexConfigV1_v0::read_ds_offset() const {
+  m_ds_offset = hdf5pp::Utils::readNdarray<int32_t, 1>(m_group, "offset", m_idx);
+}
+
+void FexConfigV1_v0::read_ds_scale() const {
+  m_ds_scale = hdf5pp::Utils::readNdarray<double, 1>(m_group, "scale", m_idx);
+}
+
+void FexConfigV1_v0::read_ds_name() const {
+  m_ds_name = hdf5pp::Utils::readListStrings(m_group, "name", m_idx);
+}
+
+void make_datasets_FexConfigV1_v0(const Psana::UsdUsb::FexConfigV1& obj, 
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle)
+{
+  {
+    typedef __typeof__(obj.offset()) PsanaArray;
+    const PsanaArray& psana_array = obj.offset();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<int32_t>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "offset", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    typedef __typeof__(obj.scale()) PsanaArray;
+    const PsanaArray& psana_array = obj.scale();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "scale", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    hsize_t dims[1] = { Psana::UsdUsb::FexConfigV1::NCHANNELS };
+    static hdf5pp::Type nameString = hdf5pp::TypeTraitsHelper::string_h5type(Psana::UsdUsb::FexConfigV1::NAME_CHAR_MAX);
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(nameString, 1, dims);
+    hdf5pp::Utils::createDataset(group, "name", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+}
+
+void store_FexConfigV1_v0(const Psana::UsdUsb::FexConfigV1* obj, hdf5pp::Group group, long index, bool append)
+{
+  std::vector<std::string> channelNames;
+  if (obj) {
+    for (unsigned ch = 0; ch < Psana::UsdUsb::FexConfigV1::NCHANNELS; ++ch) {
+      if (ch < obj->name_shape().at(0)) {
+        channelNames.push_back(obj->name(ch));
+      } else {
+        channelNames.push_back("");
+      }
+    }
+  }
+  
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "offset", obj->offset(), index);
+      hdf5pp::Utils::storeNDArrayAt(group, "scale", obj->scale(), index);
+      hdf5pp::Utils::storeListStringsAt(group, "name", 
+                                        channelNames, 
+                                        long(Psana::UsdUsb::FexConfigV1::NAME_CHAR_MAX),
+                                        index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "offset", index < 0 ? index : index + 1);
+      hdf5pp::Utils::resizeDataset(group, "scale", index < 0 ? index : index + 1);
+      hdf5pp::Utils::resizeDataset(group, "name", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "offset", obj->offset());
+    hdf5pp::Utils::storeNDArray(group, "scale", obj->scale());
+    hdf5pp::Utils::storeListStrings(group, "name", 
+                                    channelNames,
+                                    long(Psana::UsdUsb::FexConfigV1::NAME_CHAR_MAX));
+  }  
+}
+
 
 // ===============================================================
 //      UsbUsd::DataV1 schema version 0

@@ -2,6 +2,20 @@
 @package UsdUsb  {
 
 
+//------------------ FexConfigV1 --------------
+@h5schema FexConfigV1
+  [[version(0)]]
+  [[external]]
+{
+}
+
+//------------------ FexDataV1 -----------------
+@h5schema FexDataV1
+  [[version(0)]]
+{
+  @dataset encoder_values;
+}
+
 //------------------ ConfigV1 ------------------
 @h5schema ConfigV1
   [[version(0)]]

@@ -12,6 +12,131 @@
 #include "psddl_hdf2psana/usdusb.h"
 namespace psddl_hdf2psana {
 namespace UsdUsb {
+boost::shared_ptr<PSEvt::Proxy<Psana::UsdUsb::FexConfigV1> > make_FexConfigV1(int version, hdf5pp::Group group, hsize_t idx) {
+  switch (version) {
+  case 0:
+    return boost::make_shared<PSEvt::DataProxy<Psana::UsdUsb::FexConfigV1> >(boost::make_shared<FexConfigV1_v0>(group, idx));
+  default:
+    return boost::make_shared<PSEvt::DataProxy<Psana::UsdUsb::FexConfigV1> >(boost::shared_ptr<Psana::UsdUsb::FexConfigV1>());
+  }
+}
+
+void make_datasets(const Psana::UsdUsb::FexConfigV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version)
+{
+  if (version < 0) version = 0;
+  group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    make_datasets_FexConfigV1_v0(obj, group, chunkPolicy, deflate, shuffle);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "UsdUsb.FexConfigV1", version);
+  }
+}
+
+void store_FexConfigV1(const Psana::UsdUsb::FexConfigV1* obj, hdf5pp::Group group, long index, int version, bool append)
+{
+  if (version < 0) version = 0;
+  if (not append) group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    store_FexConfigV1_v0(obj, group, index, append);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "UsdUsb.FexConfigV1", version);
+  }
+}
+
+void store(const Psana::UsdUsb::FexConfigV1& obj, hdf5pp::Group group, int version) 
+{
+  store_FexConfigV1(&obj, group, 0, version, false);
+}
+
+void store_at(const Psana::UsdUsb::FexConfigV1* obj, hdf5pp::Group group, long index, int version)
+{
+  store_FexConfigV1(obj, group, index, version, true);
+}
+
+ndarray<const double, 1> FexDataV1_v0::encoder_values() const {
+  if (m_ds_encoder_values.empty()) read_ds_encoder_values();
+  return m_ds_encoder_values;
+}
+void FexDataV1_v0::read_ds_encoder_values() const {
+  m_ds_encoder_values = hdf5pp::Utils::readNdarray<double, 1>(m_group, "encoder_values", m_idx);
+}
+
+void make_datasets_FexDataV1_v0(const Psana::UsdUsb::FexDataV1& obj, 
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle)
+{
+  {
+    typedef __typeof__(obj.encoder_values()) PsanaArray;
+    const PsanaArray& psana_array = obj.encoder_values();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "encoder_values", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+}
+
+void store_FexDataV1_v0(const Psana::UsdUsb::FexDataV1* obj, hdf5pp::Group group, long index, bool append)
+{
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "encoder_values", obj->encoder_values(), index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "encoder_values", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "encoder_values", obj->encoder_values());
+  }
+
+}
+
+boost::shared_ptr<PSEvt::Proxy<Psana::UsdUsb::FexDataV1> > make_FexDataV1(int version, hdf5pp::Group group, hsize_t idx) {
+  switch (version) {
+  case 0:
+    return boost::make_shared<PSEvt::DataProxy<Psana::UsdUsb::FexDataV1> >(boost::make_shared<FexDataV1_v0>(group, idx));
+  default:
+    return boost::make_shared<PSEvt::DataProxy<Psana::UsdUsb::FexDataV1> >(boost::shared_ptr<Psana::UsdUsb::FexDataV1>());
+  }
+}
+
+void make_datasets(const Psana::UsdUsb::FexDataV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version)
+{
+  if (version < 0) version = 0;
+  group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    make_datasets_FexDataV1_v0(obj, group, chunkPolicy, deflate, shuffle);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "UsdUsb.FexDataV1", version);
+  }
+}
+
+void store_FexDataV1(const Psana::UsdUsb::FexDataV1* obj, hdf5pp::Group group, long index, int version, bool append)
+{
+  if (version < 0) version = 0;
+  if (not append) group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    store_FexDataV1_v0(obj, group, index, append);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "UsdUsb.FexDataV1", version);
+  }
+}
+
+void store(const Psana::UsdUsb::FexDataV1& obj, hdf5pp::Group group, int version) 
+{
+  store_FexDataV1(&obj, group, 0, version, false);
+}
+
+void store_at(const Psana::UsdUsb::FexDataV1* obj, hdf5pp::Group group, long index, int version)
+{
+  store_FexDataV1(obj, group, index, version, true);
+}
+
 
 hdf5pp::Type ns_ConfigV1_v0_dataset_config_stored_type()
 {
