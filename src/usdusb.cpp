@@ -113,7 +113,7 @@ void store_FexConfigV1_v0(const Psana::UsdUsb::FexConfigV1* obj, hdf5pp::Group g
   std::vector<std::string> channelNames;
   if (obj) {
     for (unsigned ch = 0; ch < Psana::UsdUsb::FexConfigV1::NCHANNELS; ++ch) {
-      if (ch < obj->name_shape().at(0)) {
+      if (int(ch) < obj->name_shape().at(0)) {
         channelNames.push_back(obj->name(ch));
       } else {
         channelNames.push_back("");

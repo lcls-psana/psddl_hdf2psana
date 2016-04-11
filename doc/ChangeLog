@@ -11,6 +11,10 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V00-09-30
+2016-4-11 David Schneider
+- fix compiler warning
+	
 Tag: V00-09-29
 2016-4-4 David Schneider
 - update to pdsdata 8.6.7 but only support UsdUsb::Fex* at this time,
