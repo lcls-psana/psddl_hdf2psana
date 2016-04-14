@@ -11,6 +11,10 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V00-09-31
+2016-4-14 David Schneider
+- use new DDL tag method_domain to generated h5schema for ocean optics dataV3
+
 Tag: V00-09-30
 2016-4-11 David Schneider
 - fix compiler warning

@@ -56,11 +56,32 @@
 {
 }
 
-//------------------ DataV3 ------------------
-@h5schema DataV3
+ //------------------ DataV3 ------------------
+ @h5schema DataV3
   [[version(0)]]
   [[external("psddl_hdf2psana/oceanoptics.h")]]
+ {
+ }
+
+//------------------ DataV3 ------------------
+@h5schema DataV3
+  [[version(1)]]
 {
+  @dataset data {
+    @attribute frameCounter;
+    @attribute numDelayedFrames;
+    @attribute numDiscardFrames; 
+    @attribute timeFrameStart;
+    @attribute timeFrameFirstData;
+    @attribute timeFrameEnd;
+    @attribute numSpectraInData;
+    @attribute numSpectraInQueue;
+    @attribute numSpectraUnused;
+    @attribute durationOfFrame;
+  }
+
+  @dataset spectra [[method(data)]];
+  @dataset corrSpectra [[method_domain(nonlinerCorrected, @psanaobj.iNumPixels)]];
 }
 
 } //- @package OceanOptics
