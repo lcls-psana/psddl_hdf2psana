@@ -11,12 +11,13 @@
 
 
 /*
- * This specialization for oceanoptics DataV* classes is needed because
- * we want to save special dataset "corrSpectra" which contains corrected
- * values in spectra array. DDL does not provide separate method for
- * accessing corrected array so we cannot write HDF5 DDL and have to write
- * C++ code for it. (It may be possible to modify DDL to return corrected
- * array but it may cause other complications).
+ * This specialization should no longer be needed. 
+ * When this was developed, the DDL did not provide a mechanism
+ * to generate a dataset by calling a function method returning a 
+ * scalar - this is what we need to store the corrSpectra dataset 
+ * from the values in the nonlinearCorrected method (taking a sample index).
+ * DataV3 schema 1 is generated from the DDL, it does the same thing
+ * as DataV3 schema 0 which was done by hand in this file.
  */
 
 namespace psddl_hdf2psana {

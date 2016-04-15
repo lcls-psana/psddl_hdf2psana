@@ -37,6 +37,7 @@
 #include "psddl_hdf2psana/lusi.ddl.h"
 #include "psddl_hdf2psana/andor3d.ddl.h"
 #include "psddl_hdf2psana/acqiris.ddl.h"
+#include "psddl_hdf2psana/generic1d.ddl.h"
 #include "psddl_hdf2psana/rayonix.ddl.h"
 #include "psddl_hdf2psana/epix.ddl.h"
 #include "psddl_hdf2psana/pulnix.ddl.h"
@@ -227,6 +228,10 @@ try {
   case 1083296678:
     // Encoder::DataV1
     evt.putProxy(psddl_hdf2psana::Encoder::make_DataV1(schema_version, group, idx), src);
+    break;
+  case 1101528269:
+    // Generic1D::ConfigV0
+    cfgStore.putProxy(psddl_hdf2psana::Generic1D::make_ConfigV0(schema_version, group, idx), src);
     break;
   case 1151720060:
     // Fli::FrameV1
@@ -671,6 +676,12 @@ try {
   case 3654144454:
     // EvrData::DataV4
     evt.putProxy(psddl_hdf2psana::EvrData::make_DataV4(schema_version, group, idx), src);
+    break;
+  case 3663597207:
+    // Generic1D::DataV0
+    if (boost::shared_ptr<Psana::Generic1D::ConfigV0> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Generic1D::make_DataV0(schema_version, group, idx, cfgPtr), src);
+    }
     break;
   case 3682217189:
     // PNCCD::FrameV1
