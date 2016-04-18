@@ -25,6 +25,30 @@
   }
 }
 
+//------------------ ConfigV2 ------------------
+@h5schema ConfigV2
+  [[version(0)]]
+{
+  @dataset config {
+    @attribute width;
+    @attribute height;
+    @attribute orgX;
+    @attribute orgY;
+    @attribute binX;
+    @attribute binY;
+    @attribute exposureTime;
+    @attribute coolingTemp;
+    @attribute fanMode;
+    @attribute cropMode;
+    @attribute baselineClamp;
+    @attribute highCapacity;
+    @attribute gainIndex;
+    @attribute readoutSpeedIndex;
+    @attribute exposureEventCode;
+    @attribute numDelayShots;
+  }
+}
+
 
 //------------------ FrameV1 ------------------
 @h5schema FrameV1

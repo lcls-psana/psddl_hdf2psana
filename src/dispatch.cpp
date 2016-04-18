@@ -173,6 +173,10 @@ try {
     // Princeton::ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Princeton::make_ConfigV1(schema_version, group, idx), src);
     break;
+  case 1022640349:
+    // Andor::ConfigV2
+    cfgStore.putProxy(psddl_hdf2psana::Andor::make_ConfigV2(schema_version, group, idx), src);
+    break;
   case 1022640350:
     // Andor::ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Andor::make_ConfigV1(schema_version, group, idx), src);
@@ -719,6 +723,8 @@ try {
   case 3985960297:
     // Andor::FrameV1
     if (boost::shared_ptr<Psana::Andor::ConfigV1> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Andor::make_FrameV1(schema_version, group, idx, cfgPtr), src);
+    } else if (boost::shared_ptr<Psana::Andor::ConfigV2> cfgPtr = cfgStore.get(src)) {
       evt.putProxy(psddl_hdf2psana::Andor::make_FrameV1(schema_version, group, idx, cfgPtr), src);
     }
     break;
