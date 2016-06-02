@@ -1553,6 +1553,193 @@ void store_at(const Psana::Bld::BldDataEBeamV7* obj, hdf5pp::Group group, long i
 }
 
 
+hdf5pp::Type ns_BldDataEOrbitsV0_v0_dataset_data_stored_type()
+{
+  typedef ns_BldDataEOrbitsV0_v0::dataset_data DsType;
+  hdf5pp::CompoundType type = hdf5pp::CompoundType::compoundType<DsType>();
+  type.insert("nBPMS", offsetof(DsType, nBPMS), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  return type;
+}
+
+hdf5pp::Type ns_BldDataEOrbitsV0_v0::dataset_data::stored_type()
+{
+  static hdf5pp::Type type = ns_BldDataEOrbitsV0_v0_dataset_data_stored_type();
+  return type;
+}
+
+hdf5pp::Type ns_BldDataEOrbitsV0_v0_dataset_data_native_type()
+{
+  typedef ns_BldDataEOrbitsV0_v0::dataset_data DsType;
+  hdf5pp::CompoundType type = hdf5pp::CompoundType::compoundType<DsType>();
+  type.insert("nBPMS", offsetof(DsType, nBPMS), hdf5pp::TypeTraits<uint32_t>::native_type());
+  return type;
+}
+
+hdf5pp::Type ns_BldDataEOrbitsV0_v0::dataset_data::native_type()
+{
+  static hdf5pp::Type type = ns_BldDataEOrbitsV0_v0_dataset_data_native_type();
+  return type;
+}
+
+ns_BldDataEOrbitsV0_v0::dataset_data::dataset_data()
+{
+}
+
+ns_BldDataEOrbitsV0_v0::dataset_data::dataset_data(const Psana::Bld::BldDataEOrbitsV0& psanaobj)
+  : nBPMS(psanaobj.nBPMS())
+{
+}
+
+ns_BldDataEOrbitsV0_v0::dataset_data::~dataset_data()
+{
+}
+uint32_t BldDataEOrbitsV0_v0::nBPMS() const {
+  if (not m_ds_data) read_ds_data();
+  return uint32_t(m_ds_data->nBPMS);
+}
+ndarray<const double, 1> BldDataEOrbitsV0_v0::fBPM_X() const {
+  if (m_ds_fBPM_X.empty()) read_ds_fBPM_X();
+  return m_ds_fBPM_X;
+}
+ndarray<const double, 1> BldDataEOrbitsV0_v0::fBPM_Y() const {
+  if (m_ds_fBPM_Y.empty()) read_ds_fBPM_Y();
+  return m_ds_fBPM_Y;
+}
+ndarray<const double, 1> BldDataEOrbitsV0_v0::fBPM_TMIT() const {
+  if (m_ds_fBPM_TMIT.empty()) read_ds_fBPM_TMIT();
+  return m_ds_fBPM_TMIT;
+}
+void BldDataEOrbitsV0_v0::read_ds_data() const {
+  m_ds_data = hdf5pp::Utils::readGroup<Bld::ns_BldDataEOrbitsV0_v0::dataset_data>(m_group, "data", m_idx);
+}
+void BldDataEOrbitsV0_v0::read_ds_fBPM_X() const {
+  m_ds_fBPM_X = hdf5pp::Utils::readNdarray<double, 1>(m_group, "fBPM_X", m_idx);
+}
+void BldDataEOrbitsV0_v0::read_ds_fBPM_Y() const {
+  m_ds_fBPM_Y = hdf5pp::Utils::readNdarray<double, 1>(m_group, "fBPM_Y", m_idx);
+}
+void BldDataEOrbitsV0_v0::read_ds_fBPM_TMIT() const {
+  m_ds_fBPM_TMIT = hdf5pp::Utils::readNdarray<double, 1>(m_group, "fBPM_TMIT", m_idx);
+}
+
+void make_datasets_BldDataEOrbitsV0_v0(const Psana::Bld::BldDataEOrbitsV0& obj, 
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle)
+{
+  {
+    hdf5pp::Type dstype = Bld::ns_BldDataEOrbitsV0_v0::dataset_data::stored_type();
+    hdf5pp::Utils::createDataset(group, "data", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    typedef __typeof__(obj.fBPM_X()) PsanaArray;
+    const PsanaArray& psana_array = obj.fBPM_X();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "fBPM_X", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    typedef __typeof__(obj.fBPM_Y()) PsanaArray;
+    const PsanaArray& psana_array = obj.fBPM_Y();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "fBPM_Y", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    typedef __typeof__(obj.fBPM_TMIT()) PsanaArray;
+    const PsanaArray& psana_array = obj.fBPM_TMIT();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "fBPM_TMIT", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+}
+
+void store_BldDataEOrbitsV0_v0(const Psana::Bld::BldDataEOrbitsV0* obj, hdf5pp::Group group, long index, bool append)
+{
+  if (obj) {
+    Bld::ns_BldDataEOrbitsV0_v0::dataset_data ds_data(*obj);
+    if (append) {
+      hdf5pp::Utils::storeAt(group, "data", ds_data, index);
+    } else {
+      hdf5pp::Utils::storeScalar(group, "data", ds_data);
+    }
+  } else if (append) {
+    hdf5pp::Utils::resizeDataset(group, "data", index < 0 ? index : index + 1);
+  }
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "fBPM_X", obj->fBPM_X(), index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "fBPM_X", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "fBPM_X", obj->fBPM_X());
+  }
+
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "fBPM_Y", obj->fBPM_Y(), index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "fBPM_Y", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "fBPM_Y", obj->fBPM_Y());
+  }
+
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "fBPM_TMIT", obj->fBPM_TMIT(), index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "fBPM_TMIT", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "fBPM_TMIT", obj->fBPM_TMIT());
+  }
+
+}
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Bld::BldDataEOrbitsV0> > make_BldDataEOrbitsV0(int version, hdf5pp::Group group, hsize_t idx) {
+  switch (version) {
+  case 0:
+    return boost::make_shared<PSEvt::DataProxy<Psana::Bld::BldDataEOrbitsV0> >(boost::make_shared<BldDataEOrbitsV0_v0>(group, idx));
+  default:
+    return boost::make_shared<PSEvt::DataProxy<Psana::Bld::BldDataEOrbitsV0> >(boost::shared_ptr<Psana::Bld::BldDataEOrbitsV0>());
+  }
+}
+
+void make_datasets(const Psana::Bld::BldDataEOrbitsV0& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version)
+{
+  if (version < 0) version = 0;
+  group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    make_datasets_BldDataEOrbitsV0_v0(obj, group, chunkPolicy, deflate, shuffle);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "Bld.BldDataEOrbitsV0", version);
+  }
+}
+
+void store_BldDataEOrbitsV0(const Psana::Bld::BldDataEOrbitsV0* obj, hdf5pp::Group group, long index, int version, bool append)
+{
+  if (version < 0) version = 0;
+  if (not append) group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    store_BldDataEOrbitsV0_v0(obj, group, index, append);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "Bld.BldDataEOrbitsV0", version);
+  }
+}
+
+void store(const Psana::Bld::BldDataEOrbitsV0& obj, hdf5pp::Group group, int version) 
+{
+  store_BldDataEOrbitsV0(&obj, group, 0, version, false);
+}
+
+void store_at(const Psana::Bld::BldDataEOrbitsV0* obj, hdf5pp::Group group, long index, int version)
+{
+  store_BldDataEOrbitsV0(obj, group, index, version, true);
+}
+
+
 hdf5pp::Type ns_BldDataPhaseCavity_v0_dataset_data_stored_type()
 {
   typedef ns_BldDataPhaseCavity_v0::dataset_data DsType;

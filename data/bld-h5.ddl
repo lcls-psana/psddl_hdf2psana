@@ -188,6 +188,18 @@
   }
 }
 
+//------------------ BldDataEOrbitsV0 ------------------
+@h5schema BldDataEOrbitsV0
+  [[version(0)]]
+{
+  @dataset data {
+    @attribute nBPMS;
+  }
+  @dataset fBPM_X;
+  @dataset fBPM_Y;
+  @dataset fBPM_TMIT;
+}
+
 
 //------------------ BldDataPhaseCavity ------------------
 @h5schema BldDataPhaseCavity

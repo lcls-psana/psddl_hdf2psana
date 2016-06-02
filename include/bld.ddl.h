@@ -578,6 +578,59 @@ void make_datasets(const Psana::Bld::BldDataEBeamV7& obj, hdf5pp::Group group, c
 void store_at(const Psana::Bld::BldDataEBeamV7* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
 
+namespace ns_BldDataEOrbitsV0_v0 {
+struct dataset_data {
+  static hdf5pp::Type native_type();
+  static hdf5pp::Type stored_type();
+
+  dataset_data();
+  dataset_data(const Psana::Bld::BldDataEOrbitsV0& psanaobj);
+  ~dataset_data();
+
+  uint32_t nBPMS;
+
+
+};
+}
+
+
+class BldDataEOrbitsV0_v0 : public Psana::Bld::BldDataEOrbitsV0 {
+public:
+  typedef Psana::Bld::BldDataEOrbitsV0 PsanaType;
+  BldDataEOrbitsV0_v0() {}
+  BldDataEOrbitsV0_v0(hdf5pp::Group group, hsize_t idx)
+    : m_group(group), m_idx(idx) {}
+  virtual ~BldDataEOrbitsV0_v0() {}
+  virtual uint32_t nBPMS() const;
+  virtual ndarray<const double, 1> fBPM_X() const;
+  virtual ndarray<const double, 1> fBPM_Y() const;
+  virtual ndarray<const double, 1> fBPM_TMIT() const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  mutable boost::shared_ptr<Bld::ns_BldDataEOrbitsV0_v0::dataset_data> m_ds_data;
+  void read_ds_data() const;
+  mutable ndarray<const double, 1> m_ds_fBPM_X;
+  void read_ds_fBPM_X() const;
+  mutable ndarray<const double, 1> m_ds_fBPM_Y;
+  void read_ds_fBPM_Y() const;
+  mutable ndarray<const double, 1> m_ds_fBPM_TMIT;
+  void read_ds_fBPM_TMIT() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Bld::BldDataEOrbitsV0> > make_BldDataEOrbitsV0(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Bld::BldDataEOrbitsV0& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Bld::BldDataEOrbitsV0& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Bld::BldDataEOrbitsV0* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
+
 namespace ns_BldDataPhaseCavity_v0 {
 struct dataset_data {
   static hdf5pp::Type native_type();
