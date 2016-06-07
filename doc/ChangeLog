@@ -11,6 +11,10 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V00-09-35
+2016-6-7 David Schneider
+- allow for zero dimensions in BldDataEOrbitsV0
+	
 Tag: V00-09-34
 2016-6-2 David Schneider
 - update to pdsdata 8.6.10 with BldDataEOrbitsV0 JIRA PSAS-239

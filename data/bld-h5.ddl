@@ -195,9 +195,9 @@
   @dataset data {
     @attribute nBPMS;
   }
-  @dataset fBPM_X;
-  @dataset fBPM_Y;
-  @dataset fBPM_TMIT;
+  @dataset fBPM_X [[zero_dims]];
+  @dataset fBPM_Y [[zero_dims]];
+  @dataset fBPM_TMIT [[zero_dims]];
 }
 
 
