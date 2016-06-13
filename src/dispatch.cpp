@@ -483,6 +483,10 @@ try {
     // Lusi::DiodeFexV1
     evt.putProxy(psddl_hdf2psana::Lusi::make_DiodeFexV1(schema_version, group, idx), src);
     break;
+  case 2814362281:
+    // Partition::ConfigV2
+    cfgStore.putProxy(psddl_hdf2psana::Partition::make_ConfigV2(schema_version, group, idx), src);
+    break;
   case 2814362282:
     // Partition::ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Partition::make_ConfigV1(schema_version, group, idx), src);

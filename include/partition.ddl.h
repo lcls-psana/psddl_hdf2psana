@@ -78,6 +78,70 @@ void make_datasets(const Psana::Partition::ConfigV1& obj, hdf5pp::Group group, c
 /// datsets are extended with zero-filled of default-initialized data.
 void store_at(const Psana::Partition::ConfigV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
+
+namespace ns_ConfigV2_v0 {
+struct dataset_data {
+  static hdf5pp::Type native_type();
+  static hdf5pp::Type stored_type();
+
+  dataset_data();
+  dataset_data(const Psana::Partition::ConfigV2& psanaobj);
+  ~dataset_data();
+
+  uint32_t numWords;
+  uint32_t numSources;
+  uint32_t numBldMaskBits;
+  uint32_t bldMaskIsZero;
+  uint32_t bldMaskIsNotZero;
+
+
+};
+}
+
+
+class ConfigV2_v0 : public Psana::Partition::ConfigV2 {
+public:
+  typedef Psana::Partition::ConfigV2 PsanaType;
+  ConfigV2_v0() {}
+  ConfigV2_v0(hdf5pp::Group group, hsize_t idx)
+    : m_group(group), m_idx(idx) {}
+  virtual ~ConfigV2_v0() {}
+  virtual uint32_t numWords() const;
+  virtual uint32_t numSources() const;
+  virtual ndarray<const uint32_t, 1> bldMask() const;
+  virtual ndarray<const Psana::Partition::Source, 1> sources() const;
+  virtual uint32_t numBldMaskBits() const;
+  virtual uint32_t bldMaskIsZero() const;
+  virtual uint32_t bldMaskIsNotZero() const;
+  virtual uint32_t bldMaskHasBitSet(uint32_t iBit) const;
+  virtual uint32_t bldMaskHasBitClear(uint32_t iBit) const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  mutable boost::shared_ptr<Partition::ns_ConfigV2_v0::dataset_data> m_ds_data;
+  void read_ds_data() const;
+  mutable ndarray<const uint32_t, 1> m_ds_bldMask;
+  void read_ds_bldMask() const;
+  mutable ndarray<const Psana::Partition::Source, 1> m_ds_sources;
+  void read_ds_sources() const;
+  mutable ndarray<const uint32_t, 1> m_ds_bldMaskHasBitSet;
+  void read_ds_bldMaskHasBitSet() const;
+  mutable ndarray<const uint32_t, 1> m_ds_bldMaskHasBitClear;
+  void read_ds_bldMaskHasBitClear() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Partition::ConfigV2> > make_ConfigV2(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Partition::ConfigV2& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Partition::ConfigV2& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Partition::ConfigV2* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
 } // namespace Partition
 } // namespace psddl_hdf2psana
 #endif // PSDDL_HDF2PSANA_PARTITION_DDL_H
