@@ -190,5 +190,63 @@ void store_BldDataAcqADCV1_v0(const Psana::Bld::BldDataAcqADCV1* obj, hdf5pp::Gr
   BldDataAcqADCV1_unimplemented();
 }
 
+// ==========================
+//     BldDataUsdUsbV1
+// ==========================
+
+namespace {
+void BldDataUsdUsbV1_unimplemented() 
+{
+  throw ExceptionNotImplemented(ERR_LOC, "Type BldDataUsdUsbV1 cannot be stored in HDF5 datasets");
+}
+}
+
+const Psana::UsdUsb::ConfigV1& 
+BldDataUsdUsbV1_v0::config() const
+{
+  const Psana::UsdUsb::ConfigV1* ptr = 0;
+  BldDataUsdUsbV1_unimplemented();
+  // never comes to this
+  return *ptr;
+}
+
+const Psana::UsdUsb::FexConfigV1& 
+BldDataUsdUsbV1_v0::fexConfig() const
+{
+  const Psana::UsdUsb::FexConfigV1* ptr = 0;
+  BldDataUsdUsbV1_unimplemented();
+  // never comes to this
+  return *ptr;
+}
+
+const Psana::UsdUsb::DataV1& 
+BldDataUsdUsbV1_v0::data() const
+{
+  const Psana::UsdUsb::DataV1* ptr = 0;
+  BldDataUsdUsbV1_unimplemented();
+  // never comes to this
+  return *ptr;
+}
+
+const Psana::UsdUsb::FexDataV1& 
+BldDataUsdUsbV1_v0::fexData() const
+{
+  const Psana::UsdUsb::FexDataV1* ptr = 0;
+  BldDataUsdUsbV1_unimplemented();
+  // never comes to this
+  return *ptr;
+}
+
+void make_datasets_BldDataUsdUsbV1_v0(const Psana::Bld::BldDataUsdUsbV1& obj,
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle)
+{
+  BldDataUsdUsbV1_unimplemented();
+}
+
+void store_BldDataUsdUsbV1_v0(const Psana::Bld::BldDataUsdUsbV1* obj, hdf5pp::Group group, long index, bool append)
+{
+  BldDataUsdUsbV1_unimplemented();
+}
+
 } // namespace Bld
 } // namespace psddl_hdf2psana

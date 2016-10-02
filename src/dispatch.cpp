@@ -105,6 +105,10 @@ try {
     // PNCCD::FullFrameV1
     evt.putProxy(psddl_hdf2psana::PNCCD::make_FullFrameV1(schema_version, group, idx), src);
     break;
+  case 435810708:
+    // Bld::BldDataUsdUsbV1
+    evt.putProxy(psddl_hdf2psana::Bld::make_BldDataUsdUsbV1(schema_version, group, idx), src);
+    break;
   case 477483284:
     // UsdUsb::DataV1
     evt.putProxy(psddl_hdf2psana::UsdUsb::make_DataV1(schema_version, group, idx), src);
@@ -116,6 +120,10 @@ try {
   case 512147955:
     // Lusi::DiodeFexConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Lusi::make_DiodeFexConfigV1(schema_version, group, idx), src);
+    break;
+  case 619316661:
+    // Bld::BldDataBeamMonitorV1
+    evt.putProxy(psddl_hdf2psana::Bld::make_BldDataBeamMonitorV1(schema_version, group, idx), src);
     break;
   case 647095708:
     // TimeTool::DataV2

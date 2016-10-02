@@ -27,12 +27,13 @@
 #include "psddl_hdf2psana/lusi.ddl.h"
 #include "psddl_hdf2psana/pulnix.ddl.h"
 #include "psddl_psana/acqiris.ddl.h"
+#include "psddl_psana/usdusb.ddl.h"
 #include "psddl_psana/bld.ddl.h"
 #include "psddl_hdf2psana/ChunkPolicy.h"
 
 namespace psddl_hdf2psana {
 namespace Bld {
-
+  
 namespace ns_BldDataPimV1_v0 {
 struct dataset_data {
   static hdf5pp::Type native_type() ;
@@ -110,6 +111,30 @@ void make_datasets_BldDataAcqADCV1_v0(const Psana::Bld::BldDataAcqADCV1& obj,
 void store_BldDataAcqADCV1_v0(const Psana::Bld::BldDataAcqADCV1* obj, hdf5pp::Group group, long index, bool append);
 
 
+/* this shared type should not be seen by the translator,
+   just the inner pieces, but declare methods generator references, 
+   then throw exception if called
+*/ 
+class BldDataUsdUsbV1_v0 : public Psana::Bld::BldDataUsdUsbV1 {
+ public:
+  typedef Psana::Bld::BldDataUsdUsbV1 PsanaType;
+
+  BldDataUsdUsbV1_v0() {}
+  BldDataUsdUsbV1_v0(hdf5pp::Group group, hsize_t idx) {}
+
+  virtual ~BldDataUsdUsbV1_v0() {}
+
+  virtual const Psana::UsdUsb::ConfigV1& config() const;
+  virtual const Psana::UsdUsb::FexConfigV1& fexConfig() const;
+  virtual const Psana::UsdUsb::DataV1& data() const;
+  virtual const Psana::UsdUsb::FexDataV1& fexData() const;
+
+private:
+};
+
+void make_datasets_BldDataUsdUsbV1_v0(const Psana::Bld::BldDataUsdUsbV1& obj,
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle);
+void store_BldDataUsdUsbV1_v0(const Psana::Bld::BldDataUsdUsbV1* obj, hdf5pp::Group group, long index, bool append);
 
 } // namespace Bld
 } // namespace psddl_hdf2psana

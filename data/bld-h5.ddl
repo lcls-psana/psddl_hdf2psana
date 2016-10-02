@@ -245,6 +245,13 @@
 {
 }
 
+//------------------ BldDataUsdUsbV1 ------------------
+@h5schema BldDataUsdUsbV1
+  [[version(0)]]
+  [[external("psddl_hdf2psana/bld.h")]]
+{
+} 
+
 
 //------------------ BldDataGMDV0 ------------------
 @h5schema BldDataGMDV0
@@ -345,6 +352,21 @@
     @attribute numChannels;
   }
   @dataset channelVoltages [[zero_dims]];
+}
+
+//------------------ BldDataBeamMonitorV1 ------------------
+/* Intensity and Position Measurements */
+@h5schema BldDataBeamMonitorV1
+  [[version(0)]]
+{
+  @dataset  data {
+    @attribute TotalIntensity;
+    @attribute X_Position;
+    @attribute Y_Position;
+    @attribute peakA;
+    @attribute peakT; 
+  } 
+  @dataset Channel_Intensity;
 }
 
 

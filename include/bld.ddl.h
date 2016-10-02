@@ -13,6 +13,7 @@
 #include "psddl_hdf2psana/ipimb.ddl.h"
 #include "psddl_hdf2psana/lusi.ddl.h"
 #include "psddl_hdf2psana/pulnix.ddl.h"
+#include "psddl_hdf2psana/usdusb.ddl.h"
 #include "psddl_hdf2psana/lusi.ddl.h"
 #include "psddl_hdf2psana/ipimb.ddl.h"
 namespace psddl_hdf2psana {
@@ -794,6 +795,18 @@ void make_datasets(const Psana::Bld::BldDataPimV1& obj, hdf5pp::Group group, con
 /// datsets are extended with zero-filled of default-initialized data.
 void store_at(const Psana::Bld::BldDataPimV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
+boost::shared_ptr<PSEvt::Proxy<Psana::Bld::BldDataUsdUsbV1> > make_BldDataUsdUsbV1(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Bld::BldDataUsdUsbV1& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Bld::BldDataUsdUsbV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Bld::BldDataUsdUsbV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
 
 namespace ns_BldDataGMDV0_v0 {
 struct dataset_data {
@@ -1150,6 +1163,61 @@ void make_datasets(const Psana::Bld::BldDataAnalogInputV1& obj, hdf5pp::Group gr
 /// negative index means append to the end of dataset. If pointer to object is zero then
 /// datsets are extended with zero-filled of default-initialized data.
 void store_at(const Psana::Bld::BldDataAnalogInputV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
+
+namespace ns_BldDataBeamMonitorV1_v0 {
+struct dataset_data {
+  static hdf5pp::Type native_type();
+  static hdf5pp::Type stored_type();
+
+  dataset_data();
+  dataset_data(const Psana::Bld::BldDataBeamMonitorV1& psanaobj);
+  ~dataset_data();
+
+  double TotalIntensity;
+  double X_Position;
+  double Y_Position;
+  double peakA;
+  double peakT;
+
+
+};
+}
+
+
+class BldDataBeamMonitorV1_v0 : public Psana::Bld::BldDataBeamMonitorV1 {
+public:
+  typedef Psana::Bld::BldDataBeamMonitorV1 PsanaType;
+  BldDataBeamMonitorV1_v0() {}
+  BldDataBeamMonitorV1_v0(hdf5pp::Group group, hsize_t idx)
+    : m_group(group), m_idx(idx) {}
+  virtual ~BldDataBeamMonitorV1_v0() {}
+  virtual double TotalIntensity() const;
+  virtual double X_Position() const;
+  virtual double Y_Position() const;
+  virtual double peakA() const;
+  virtual double peakT() const;
+  virtual ndarray<const double, 1> Channel_Intensity() const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  mutable boost::shared_ptr<Bld::ns_BldDataBeamMonitorV1_v0::dataset_data> m_ds_data;
+  void read_ds_data() const;
+  mutable ndarray<const double, 1> m_ds_Channel_Intensity;
+  void read_ds_Channel_Intensity() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Bld::BldDataBeamMonitorV1> > make_BldDataBeamMonitorV1(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Bld::BldDataBeamMonitorV1& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Bld::BldDataBeamMonitorV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Bld::BldDataBeamMonitorV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
 } // namespace Bld
 } // namespace psddl_hdf2psana

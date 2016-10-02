@@ -11,6 +11,11 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V00-09-37
+2016-6-30 David Schneider
+- update to pdsdata 8.6.16 and psddldata V01-00-48 for BldDataBeamMonitorV1 and BldUsdUsbV1
+- do not implement hdf for BldUsdUsb - assume XtcConverter will split type into subtypes
+
 Tag:V00-09-36
 2016-6-13 David Schneider
 - update to pdsdata 8.6.12 for Partition::ConfigV2 JIRA PSAS-241
