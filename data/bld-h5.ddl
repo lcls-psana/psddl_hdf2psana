@@ -363,10 +363,9 @@
     @attribute TotalIntensity;
     @attribute X_Position;
     @attribute Y_Position;
-    @attribute peakA;
-    @attribute peakT; 
   } 
-  @dataset Channel_Intensity;
+  @dataset peakA;
+  @dataset peakT;
 }
 
 

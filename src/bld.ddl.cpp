@@ -3402,8 +3402,6 @@ hdf5pp::Type ns_BldDataBeamMonitorV1_v0_dataset_data_stored_type()
   type.insert("TotalIntensity", offsetof(DsType, TotalIntensity), hdf5pp::TypeTraits<double>::stored_type());
   type.insert("X_Position", offsetof(DsType, X_Position), hdf5pp::TypeTraits<double>::stored_type());
   type.insert("Y_Position", offsetof(DsType, Y_Position), hdf5pp::TypeTraits<double>::stored_type());
-  type.insert("peakA", offsetof(DsType, peakA), hdf5pp::TypeTraits<double>::stored_type());
-  type.insert("peakT", offsetof(DsType, peakT), hdf5pp::TypeTraits<double>::stored_type());
   return type;
 }
 
@@ -3420,8 +3418,6 @@ hdf5pp::Type ns_BldDataBeamMonitorV1_v0_dataset_data_native_type()
   type.insert("TotalIntensity", offsetof(DsType, TotalIntensity), hdf5pp::TypeTraits<double>::native_type());
   type.insert("X_Position", offsetof(DsType, X_Position), hdf5pp::TypeTraits<double>::native_type());
   type.insert("Y_Position", offsetof(DsType, Y_Position), hdf5pp::TypeTraits<double>::native_type());
-  type.insert("peakA", offsetof(DsType, peakA), hdf5pp::TypeTraits<double>::native_type());
-  type.insert("peakT", offsetof(DsType, peakT), hdf5pp::TypeTraits<double>::native_type());
   return type;
 }
 
@@ -3439,8 +3435,6 @@ ns_BldDataBeamMonitorV1_v0::dataset_data::dataset_data(const Psana::Bld::BldData
   : TotalIntensity(psanaobj.TotalIntensity())
   , X_Position(psanaobj.X_Position())
   , Y_Position(psanaobj.Y_Position())
-  , peakA(psanaobj.peakA())
-  , peakT(psanaobj.peakT())
 {
 }
 
@@ -3459,23 +3453,22 @@ double BldDataBeamMonitorV1_v0::Y_Position() const {
   if (not m_ds_data) read_ds_data();
   return double(m_ds_data->Y_Position);
 }
-double BldDataBeamMonitorV1_v0::peakA() const {
-  if (not m_ds_data) read_ds_data();
-  return double(m_ds_data->peakA);
+ndarray<const double, 1> BldDataBeamMonitorV1_v0::peakA() const {
+  if (m_ds_peakA.empty()) read_ds_peakA();
+  return m_ds_peakA;
 }
-double BldDataBeamMonitorV1_v0::peakT() const {
-  if (not m_ds_data) read_ds_data();
-  return double(m_ds_data->peakT);
-}
-ndarray<const double, 1> BldDataBeamMonitorV1_v0::Channel_Intensity() const {
-  if (m_ds_Channel_Intensity.empty()) read_ds_Channel_Intensity();
-  return m_ds_Channel_Intensity;
+ndarray<const uint16_t, 1> BldDataBeamMonitorV1_v0::peakT() const {
+  if (m_ds_peakT.empty()) read_ds_peakT();
+  return m_ds_peakT;
 }
 void BldDataBeamMonitorV1_v0::read_ds_data() const {
   m_ds_data = hdf5pp::Utils::readGroup<Bld::ns_BldDataBeamMonitorV1_v0::dataset_data>(m_group, "data", m_idx);
 }
-void BldDataBeamMonitorV1_v0::read_ds_Channel_Intensity() const {
-  m_ds_Channel_Intensity = hdf5pp::Utils::readNdarray<double, 1>(m_group, "Channel_Intensity", m_idx);
+void BldDataBeamMonitorV1_v0::read_ds_peakA() const {
+  m_ds_peakA = hdf5pp::Utils::readNdarray<double, 1>(m_group, "peakA", m_idx);
+}
+void BldDataBeamMonitorV1_v0::read_ds_peakT() const {
+  m_ds_peakT = hdf5pp::Utils::readNdarray<uint16_t, 1>(m_group, "peakT", m_idx);
 }
 
 void make_datasets_BldDataBeamMonitorV1_v0(const Psana::Bld::BldDataBeamMonitorV1& obj, 
@@ -3486,10 +3479,16 @@ void make_datasets_BldDataBeamMonitorV1_v0(const Psana::Bld::BldDataBeamMonitorV
     hdf5pp::Utils::createDataset(group, "data", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
   }
   {
-    typedef __typeof__(obj.Channel_Intensity()) PsanaArray;
-    const PsanaArray& psana_array = obj.Channel_Intensity();
+    typedef __typeof__(obj.peakA()) PsanaArray;
+    const PsanaArray& psana_array = obj.peakA();
     hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<double>::stored_type(), psana_array.shape()[0]);
-    hdf5pp::Utils::createDataset(group, "Channel_Intensity", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+    hdf5pp::Utils::createDataset(group, "peakA", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+  {
+    typedef __typeof__(obj.peakT()) PsanaArray;
+    const PsanaArray& psana_array = obj.peakT();
+    hdf5pp::Type dstype = hdf5pp::ArrayType::arrayType(hdf5pp::TypeTraits<uint16_t>::stored_type(), psana_array.shape()[0]);
+    hdf5pp::Utils::createDataset(group, "peakT", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
   }
 }
 
@@ -3507,12 +3506,22 @@ void store_BldDataBeamMonitorV1_v0(const Psana::Bld::BldDataBeamMonitorV1* obj, 
   }
   if (append) {
     if (obj) {
-      hdf5pp::Utils::storeNDArrayAt(group, "Channel_Intensity", obj->Channel_Intensity(), index);
+      hdf5pp::Utils::storeNDArrayAt(group, "peakA", obj->peakA(), index);
     } else {
-      hdf5pp::Utils::resizeDataset(group, "Channel_Intensity", index < 0 ? index : index + 1);
+      hdf5pp::Utils::resizeDataset(group, "peakA", index < 0 ? index : index + 1);
     }
   } else {
-    hdf5pp::Utils::storeNDArray(group, "Channel_Intensity", obj->Channel_Intensity());
+    hdf5pp::Utils::storeNDArray(group, "peakA", obj->peakA());
+  }
+
+  if (append) {
+    if (obj) {
+      hdf5pp::Utils::storeNDArrayAt(group, "peakT", obj->peakT(), index);
+    } else {
+      hdf5pp::Utils::resizeDataset(group, "peakT", index < 0 ? index : index + 1);
+    }
+  } else {
+    hdf5pp::Utils::storeNDArray(group, "peakT", obj->peakT());
   }
 
 }

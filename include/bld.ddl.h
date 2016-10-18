@@ -1177,8 +1177,6 @@ struct dataset_data {
   double TotalIntensity;
   double X_Position;
   double Y_Position;
-  double peakA;
-  double peakT;
 
 
 };
@@ -1195,16 +1193,17 @@ public:
   virtual double TotalIntensity() const;
   virtual double X_Position() const;
   virtual double Y_Position() const;
-  virtual double peakA() const;
-  virtual double peakT() const;
-  virtual ndarray<const double, 1> Channel_Intensity() const;
+  virtual ndarray<const double, 1> peakA() const;
+  virtual ndarray<const uint16_t, 1> peakT() const;
 private:
   mutable hdf5pp::Group m_group;
   hsize_t m_idx;
   mutable boost::shared_ptr<Bld::ns_BldDataBeamMonitorV1_v0::dataset_data> m_ds_data;
   void read_ds_data() const;
-  mutable ndarray<const double, 1> m_ds_Channel_Intensity;
-  void read_ds_Channel_Intensity() const;
+  mutable ndarray<const double, 1> m_ds_peakA;
+  void read_ds_peakA() const;
+  mutable ndarray<const uint16_t, 1> m_ds_peakT;
+  void read_ds_peakT() const;
 };
 
 boost::shared_ptr<PSEvt::Proxy<Psana::Bld::BldDataBeamMonitorV1> > make_BldDataBeamMonitorV1(int version, hdf5pp::Group group, hsize_t idx);
