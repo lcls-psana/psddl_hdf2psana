@@ -605,5 +605,182 @@ void store_at(const Psana::Camera::TwoDGaussianV1* obj, hdf5pp::Group group, lon
   store_TwoDGaussianV1(obj, group, index, version, true);
 }
 
+
+hdf5pp::Type ns_ControlsCameraConfigV1_v0_dataset_config_stored_type()
+{
+  typedef ns_ControlsCameraConfigV1_v0::dataset_config DsType;
+  hdf5pp::CompoundType type = hdf5pp::CompoundType::compoundType<DsType>();
+  type.insert("width", offsetof(DsType, width), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("height", offsetof(DsType, height), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("depth", offsetof(DsType, depth), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  hdf5pp::EnumType<uint32_t> _enum_type_color_mode = hdf5pp::EnumType<uint32_t>::enumType();
+  _enum_type_color_mode.insert("Mono", Psana::Camera::ControlsCameraConfigV1::Mono);
+  _enum_type_color_mode.insert("Bayer", Psana::Camera::ControlsCameraConfigV1::Bayer);
+  _enum_type_color_mode.insert("RGB1", Psana::Camera::ControlsCameraConfigV1::RGB1);
+  type.insert("color_mode", offsetof(DsType, color_mode), _enum_type_color_mode);
+  type.insert("exposure_time", offsetof(DsType, exposure_time), hdf5pp::TypeTraits<double>::stored_type());
+  type.insert("gain", offsetof(DsType, gain), hdf5pp::TypeTraits<double>::stored_type());
+  type.insert("manufacturer", offsetof(DsType, manufacturer), hdf5pp::TypeTraits<const char*>::stored_type());
+  type.insert("model", offsetof(DsType, model), hdf5pp::TypeTraits<const char*>::stored_type());
+  return type;
+}
+
+hdf5pp::Type ns_ControlsCameraConfigV1_v0::dataset_config::stored_type()
+{
+  static hdf5pp::Type type = ns_ControlsCameraConfigV1_v0_dataset_config_stored_type();
+  return type;
+}
+
+hdf5pp::Type ns_ControlsCameraConfigV1_v0_dataset_config_native_type()
+{
+  typedef ns_ControlsCameraConfigV1_v0::dataset_config DsType;
+  hdf5pp::CompoundType type = hdf5pp::CompoundType::compoundType<DsType>();
+  type.insert("width", offsetof(DsType, width), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("height", offsetof(DsType, height), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("depth", offsetof(DsType, depth), hdf5pp::TypeTraits<uint32_t>::native_type());
+  hdf5pp::EnumType<uint32_t> _enum_type_color_mode = hdf5pp::EnumType<uint32_t>::enumType();
+  _enum_type_color_mode.insert("Mono", Psana::Camera::ControlsCameraConfigV1::Mono);
+  _enum_type_color_mode.insert("Bayer", Psana::Camera::ControlsCameraConfigV1::Bayer);
+  _enum_type_color_mode.insert("RGB1", Psana::Camera::ControlsCameraConfigV1::RGB1);
+  type.insert("color_mode", offsetof(DsType, color_mode), _enum_type_color_mode);
+  type.insert("exposure_time", offsetof(DsType, exposure_time), hdf5pp::TypeTraits<double>::native_type());
+  type.insert("gain", offsetof(DsType, gain), hdf5pp::TypeTraits<double>::native_type());
+  type.insert("manufacturer", offsetof(DsType, manufacturer), hdf5pp::TypeTraits<const char*>::native_type());
+  type.insert("model", offsetof(DsType, model), hdf5pp::TypeTraits<const char*>::native_type());
+  return type;
+}
+
+hdf5pp::Type ns_ControlsCameraConfigV1_v0::dataset_config::native_type()
+{
+  static hdf5pp::Type type = ns_ControlsCameraConfigV1_v0_dataset_config_native_type();
+  return type;
+}
+
+ns_ControlsCameraConfigV1_v0::dataset_config::dataset_config()
+{
+}
+
+ns_ControlsCameraConfigV1_v0::dataset_config::dataset_config(const Psana::Camera::ControlsCameraConfigV1& psanaobj)
+  : width(psanaobj.width())
+  , height(psanaobj.height())
+  , depth(psanaobj.depth())
+  , color_mode(psanaobj.color_mode())
+  , exposure_time(psanaobj.exposure_time())
+  , gain(psanaobj.gain())
+  , manufacturer(0)
+  , model(0)
+{
+  manufacturer = strdup(psanaobj.manufacturer());
+  model = strdup(psanaobj.model());
+}
+
+ns_ControlsCameraConfigV1_v0::dataset_config::~dataset_config()
+{
+}
+uint32_t ControlsCameraConfigV1_v0::width() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->width);
+}
+uint32_t ControlsCameraConfigV1_v0::height() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->height);
+}
+uint32_t ControlsCameraConfigV1_v0::depth() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->depth);
+}
+Psana::Camera::ControlsCameraConfigV1::ColorMode ControlsCameraConfigV1_v0::color_mode() const {
+  if (not m_ds_config) read_ds_config();
+  return Psana::Camera::ControlsCameraConfigV1::ColorMode(m_ds_config->color_mode);
+}
+double ControlsCameraConfigV1_v0::exposure_time() const {
+  if (not m_ds_config) read_ds_config();
+  return double(m_ds_config->exposure_time);
+}
+double ControlsCameraConfigV1_v0::gain() const {
+  if (not m_ds_config) read_ds_config();
+  return double(m_ds_config->gain);
+}
+const char* ControlsCameraConfigV1_v0::manufacturer() const {
+  if (not m_ds_config) read_ds_config();
+  return (const char*)(m_ds_config->manufacturer);
+}
+const char* ControlsCameraConfigV1_v0::model() const {
+  if (not m_ds_config) read_ds_config();
+  return (const char*)(m_ds_config->model);
+}
+void ControlsCameraConfigV1_v0::read_ds_config() const {
+  m_ds_config = hdf5pp::Utils::readGroup<Camera::ns_ControlsCameraConfigV1_v0::dataset_config>(m_group, "config", m_idx);
+}
+
+void make_datasets_ControlsCameraConfigV1_v0(const Psana::Camera::ControlsCameraConfigV1& obj, 
+      hdf5pp::Group group, const ChunkPolicy& chunkPolicy, int deflate, bool shuffle)
+{
+  {
+    hdf5pp::Type dstype = Camera::ns_ControlsCameraConfigV1_v0::dataset_config::stored_type();
+    hdf5pp::Utils::createDataset(group, "config", dstype, chunkPolicy.chunkSize(dstype), chunkPolicy.chunkCacheSize(dstype), deflate, shuffle);    
+  }
+}
+
+void store_ControlsCameraConfigV1_v0(const Psana::Camera::ControlsCameraConfigV1* obj, hdf5pp::Group group, long index, bool append)
+{
+  if (obj) {
+    Camera::ns_ControlsCameraConfigV1_v0::dataset_config ds_data(*obj);
+    if (append) {
+      hdf5pp::Utils::storeAt(group, "config", ds_data, index);
+    } else {
+      hdf5pp::Utils::storeScalar(group, "config", ds_data);
+    }
+  } else if (append) {
+    hdf5pp::Utils::resizeDataset(group, "config", index < 0 ? index : index + 1);
+  }
+}
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Camera::ControlsCameraConfigV1> > make_ControlsCameraConfigV1(int version, hdf5pp::Group group, hsize_t idx) {
+  switch (version) {
+  case 0:
+    return boost::make_shared<PSEvt::DataProxy<Psana::Camera::ControlsCameraConfigV1> >(boost::make_shared<ControlsCameraConfigV1_v0>(group, idx));
+  default:
+    return boost::make_shared<PSEvt::DataProxy<Psana::Camera::ControlsCameraConfigV1> >(boost::shared_ptr<Psana::Camera::ControlsCameraConfigV1>());
+  }
+}
+
+void make_datasets(const Psana::Camera::ControlsCameraConfigV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version)
+{
+  if (version < 0) version = 0;
+  group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    make_datasets_ControlsCameraConfigV1_v0(obj, group, chunkPolicy, deflate, shuffle);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "Camera.ControlsCameraConfigV1", version);
+  }
+}
+
+void store_ControlsCameraConfigV1(const Psana::Camera::ControlsCameraConfigV1* obj, hdf5pp::Group group, long index, int version, bool append)
+{
+  if (version < 0) version = 0;
+  if (not append) group.createAttr<uint32_t>("_schemaVersion").store(version);
+  switch (version) {
+  case 0:
+    store_ControlsCameraConfigV1_v0(obj, group, index, append);
+    break;
+  default:
+    throw ExceptionSchemaVersion(ERR_LOC, "Camera.ControlsCameraConfigV1", version);
+  }
+}
+
+void store(const Psana::Camera::ControlsCameraConfigV1& obj, hdf5pp::Group group, int version) 
+{
+  store_ControlsCameraConfigV1(&obj, group, 0, version, false);
+}
+
+void store_at(const Psana::Camera::ControlsCameraConfigV1* obj, hdf5pp::Group group, long index, int version)
+{
+  store_ControlsCameraConfigV1(obj, group, index, version, true);
+}
+
 } // namespace Camera
 } // namespace psddl_hdf2psana

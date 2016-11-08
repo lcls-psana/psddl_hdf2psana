@@ -631,6 +631,10 @@ try {
     // Bld::BldDataIpimb
     evt.putProxy(psddl_hdf2psana::Bld::make_BldDataIpimbV0(schema_version, group, idx), src);
     break;
+  case 3291453148:
+    // Camera::ControlsCameraConfigV1
+    cfgStore.putProxy(psddl_hdf2psana::Camera::make_ControlsCameraConfigV1(schema_version, group, idx), src);
+    break;
   case 3346701347:
     // L3T::ConfigV1
     cfgStore.putProxy(psddl_hdf2psana::L3T::make_ConfigV1(schema_version, group, idx), src);

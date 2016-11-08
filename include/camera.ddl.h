@@ -210,6 +210,65 @@ void make_datasets(const Psana::Camera::TwoDGaussianV1& obj, hdf5pp::Group group
 /// datsets are extended with zero-filled of default-initialized data.
 void store_at(const Psana::Camera::TwoDGaussianV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
 
+
+namespace ns_ControlsCameraConfigV1_v0 {
+struct dataset_config {
+  static hdf5pp::Type native_type();
+  static hdf5pp::Type stored_type();
+
+  dataset_config();
+  dataset_config(const Psana::Camera::ControlsCameraConfigV1& psanaobj);
+  ~dataset_config();
+
+  uint32_t width;
+  uint32_t height;
+  uint32_t depth;
+  uint32_t color_mode;
+  double exposure_time;
+  double gain;
+  char* manufacturer;
+  char* model;
+
+
+};
+}
+
+
+class ControlsCameraConfigV1_v0 : public Psana::Camera::ControlsCameraConfigV1 {
+public:
+  typedef Psana::Camera::ControlsCameraConfigV1 PsanaType;
+  ControlsCameraConfigV1_v0() {}
+  ControlsCameraConfigV1_v0(hdf5pp::Group group, hsize_t idx)
+    : m_group(group), m_idx(idx) {}
+  ControlsCameraConfigV1_v0(const boost::shared_ptr<Camera::ns_ControlsCameraConfigV1_v0::dataset_config>& ds) : m_ds_config(ds) {}
+  virtual ~ControlsCameraConfigV1_v0() {}
+  virtual uint32_t width() const;
+  virtual uint32_t height() const;
+  virtual uint32_t depth() const;
+  virtual Psana::Camera::ControlsCameraConfigV1::ColorMode color_mode() const;
+  virtual double exposure_time() const;
+  virtual double gain() const;
+  virtual const char* manufacturer() const;
+  virtual const char* model() const;
+private:
+  mutable hdf5pp::Group m_group;
+  hsize_t m_idx;
+  mutable boost::shared_ptr<Camera::ns_ControlsCameraConfigV1_v0::dataset_config> m_ds_config;
+  void read_ds_config() const;
+};
+
+boost::shared_ptr<PSEvt::Proxy<Psana::Camera::ControlsCameraConfigV1> > make_ControlsCameraConfigV1(int version, hdf5pp::Group group, hsize_t idx);
+
+/// Store object as a single instance (scalar dataset) inside specified group.
+void store(const Psana::Camera::ControlsCameraConfigV1& obj, hdf5pp::Group group, int version = -1);
+/// Create container (rank=1) datasets for storing objects of specified type.
+void make_datasets(const Psana::Camera::ControlsCameraConfigV1& obj, hdf5pp::Group group, const ChunkPolicy& chunkPolicy,
+                   int deflate, bool shuffle, int version = -1);
+/// Add one more object to the containers created by previous method at the specified index,
+/// negative index means append to the end of dataset. If pointer to object is zero then
+/// datsets are extended with zero-filled of default-initialized data.
+void store_at(const Psana::Camera::ControlsCameraConfigV1* obj, hdf5pp::Group group, long index = -1, int version = -1);
+
 } // namespace Camera
 } // namespace psddl_hdf2psana
 #endif // PSDDL_HDF2PSANA_CAMERA_DDL_H
