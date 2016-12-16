@@ -37,6 +37,7 @@
 #include "psddl_hdf2psana/lusi.ddl.h"
 #include "psddl_hdf2psana/andor3d.ddl.h"
 #include "psddl_hdf2psana/acqiris.ddl.h"
+#include "psddl_hdf2psana/jungfrau.ddl.h"
 #include "psddl_hdf2psana/generic1d.ddl.h"
 #include "psddl_hdf2psana/rayonix.ddl.h"
 #include "psddl_hdf2psana/epix.ddl.h"
@@ -100,6 +101,10 @@ try {
   case 169144489:
     // Acqiris::TdcConfigV1
     cfgStore.putProxy(psddl_hdf2psana::Acqiris::make_TdcConfigV1(schema_version, group, idx), src);
+    break;
+  case 171641950:
+    // Jungfrau::ConfigV1
+    cfgStore.putProxy(psddl_hdf2psana::Jungfrau::make_ConfigV1(schema_version, group, idx), src);
     break;
   case 245364150:
     // PNCCD::FullFrameV1
@@ -692,6 +697,12 @@ try {
   case 3607424182:
     // Bld::BldDataFEEGasDetEnergyV1
     evt.putProxy(psddl_hdf2psana::Bld::make_BldDataFEEGasDetEnergyV1(schema_version, group, idx), src);
+    break;
+  case 3647400170:
+    // Jungfrau::ElementV1
+    if (boost::shared_ptr<Psana::Jungfrau::ConfigV1> cfgPtr = cfgStore.get(src)) {
+      evt.putProxy(psddl_hdf2psana::Jungfrau::make_ElementV1(schema_version, group, idx, cfgPtr), src);
+    }
     break;
   case 3654144449:
     // EvrData::DataV3
