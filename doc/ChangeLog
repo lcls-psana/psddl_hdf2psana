@@ -11,6 +11,10 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag V00-09-41
+2018-10-26 Daniel Damiani
+- update to fix compilier error for Rayonix with pdsdata 8.9.8
+
 Tag: V00-09-40
 2016-12-16 David Schneider
 - update to pdsdata 8.7.0 for JungFrau detector

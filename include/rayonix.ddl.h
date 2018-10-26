@@ -50,6 +50,20 @@ public:
   virtual uint16_t darkFlag() const;
   virtual Psana::Rayonix::ConfigV1::ReadoutMode readoutMode() const;
   virtual const char* deviceID() const;
+  /** The width of the pixels in um. */
+  uint32_t pixelWidth() const { return BasePixelSize * this->binning_f(); }
+  /** The height of the pixels in um. */
+  uint32_t pixelHeight() const { return BasePixelSize * this->binning_s(); }
+  /** Returns the maximum possible width in pixels (a.k.a unbinned). */
+  uint32_t maxWidth() const { return Column_Pixels; }
+  /** Returns the maximum possible height in pixels (a.k.a unbinned). */
+  uint32_t maxHeight() const { return Row_Pixels; }
+  /** Calculate the frame width in pixels based on the max number of pixels and the binning. */
+  uint32_t width() const { return this->maxWidth() / this->binning_f(); }
+  /** Calculate the frame height in pixels based on the max number of pixels and the binning. */
+  uint32_t height() const { return this->maxHeight() / this->binning_s(); }
+  /** calculate total frame size in pixels. */
+  uint32_t numPixels() const { return this->width() * this->height(); }
 private:
   mutable hdf5pp::Group m_group;
   hsize_t m_idx;
@@ -88,6 +102,13 @@ struct dataset_config {
   uint16_t darkFlag;
   uint32_t readoutMode;
   char* deviceID;
+  uint32_t pixelWidth;
+  uint32_t pixelHeight;
+  uint32_t maxWidth;
+  uint32_t maxHeight;
+  uint32_t width;
+  uint32_t height;
+  uint32_t numPixels;
 
 
 };
@@ -111,6 +132,13 @@ public:
   virtual uint16_t darkFlag() const;
   virtual Psana::Rayonix::ConfigV2::ReadoutMode readoutMode() const;
   virtual const char* deviceID() const;
+  virtual uint32_t pixelWidth() const;
+  virtual uint32_t pixelHeight() const;
+  virtual uint32_t maxWidth() const;
+  virtual uint32_t maxHeight() const;
+  virtual uint32_t width() const;
+  virtual uint32_t height() const;
+  virtual uint32_t numPixels() const;
 private:
   mutable hdf5pp::Group m_group;
   hsize_t m_idx;

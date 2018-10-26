@@ -115,6 +115,13 @@ const char* ConfigV1_v0::deviceID() const {
   if (not m_ds_config) read_ds_config();
   return (const char*)(m_ds_config->deviceID);
 }
+
+
+
+
+
+
+
 void ConfigV1_v0::read_ds_config() const {
   m_ds_config = hdf5pp::Utils::readGroup<Rayonix::ns_ConfigV1_v0::dataset_config>(m_group, "config", m_idx);
 }
@@ -208,6 +215,13 @@ hdf5pp::Type ns_ConfigV2_v0_dataset_config_stored_type()
   _enum_type_readoutMode.insert("HDR", Psana::Rayonix::ConfigV2::HDR);
   type.insert("readoutMode", offsetof(DsType, readoutMode), _enum_type_readoutMode);
   type.insert("deviceID", offsetof(DsType, deviceID), hdf5pp::TypeTraits<const char*>::stored_type());
+  type.insert("pixelWidth", offsetof(DsType, pixelWidth), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("pixelHeight", offsetof(DsType, pixelHeight), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("maxWidth", offsetof(DsType, maxWidth), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("maxHeight", offsetof(DsType, maxHeight), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("width", offsetof(DsType, width), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("height", offsetof(DsType, height), hdf5pp::TypeTraits<uint32_t>::stored_type());
+  type.insert("numPixels", offsetof(DsType, numPixels), hdf5pp::TypeTraits<uint32_t>::stored_type());
   return type;
 }
 
@@ -236,6 +250,13 @@ hdf5pp::Type ns_ConfigV2_v0_dataset_config_native_type()
   _enum_type_readoutMode.insert("HDR", Psana::Rayonix::ConfigV2::HDR);
   type.insert("readoutMode", offsetof(DsType, readoutMode), _enum_type_readoutMode);
   type.insert("deviceID", offsetof(DsType, deviceID), hdf5pp::TypeTraits<const char*>::native_type());
+  type.insert("pixelWidth", offsetof(DsType, pixelWidth), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("pixelHeight", offsetof(DsType, pixelHeight), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("maxWidth", offsetof(DsType, maxWidth), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("maxHeight", offsetof(DsType, maxHeight), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("width", offsetof(DsType, width), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("height", offsetof(DsType, height), hdf5pp::TypeTraits<uint32_t>::native_type());
+  type.insert("numPixels", offsetof(DsType, numPixels), hdf5pp::TypeTraits<uint32_t>::native_type());
   return type;
 }
 
@@ -259,6 +280,13 @@ ns_ConfigV2_v0::dataset_config::dataset_config(const Psana::Rayonix::ConfigV2& p
   , darkFlag(psanaobj.darkFlag())
   , readoutMode(psanaobj.readoutMode())
   , deviceID(0)
+  , pixelWidth(psanaobj.pixelWidth())
+  , pixelHeight(psanaobj.pixelHeight())
+  , maxWidth(psanaobj.maxWidth())
+  , maxHeight(psanaobj.maxHeight())
+  , width(psanaobj.width())
+  , height(psanaobj.height())
+  , numPixels(psanaobj.numPixels())
 {
   deviceID = strdup(psanaobj.deviceID());
 }
@@ -301,6 +329,34 @@ Psana::Rayonix::ConfigV2::ReadoutMode ConfigV2_v0::readoutMode() const {
 const char* ConfigV2_v0::deviceID() const {
   if (not m_ds_config) read_ds_config();
   return (const char*)(m_ds_config->deviceID);
+}
+uint32_t ConfigV2_v0::pixelWidth() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->pixelWidth);
+}
+uint32_t ConfigV2_v0::pixelHeight() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->pixelHeight);
+}
+uint32_t ConfigV2_v0::maxWidth() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->maxWidth);
+}
+uint32_t ConfigV2_v0::maxHeight() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->maxHeight);
+}
+uint32_t ConfigV2_v0::width() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->width);
+}
+uint32_t ConfigV2_v0::height() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->height);
+}
+uint32_t ConfigV2_v0::numPixels() const {
+  if (not m_ds_config) read_ds_config();
+  return uint32_t(m_ds_config->numPixels);
 }
 void ConfigV2_v0::read_ds_config() const {
   m_ds_config = hdf5pp::Utils::readGroup<Rayonix::ns_ConfigV2_v0::dataset_config>(m_group, "config", m_idx);
