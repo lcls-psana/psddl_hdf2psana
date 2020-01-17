@@ -17,7 +17,7 @@ if __name__ == "__main__":
                                                           includeHdf=True,
                                                           includeDecl=False)
     filesForDispatch = []
-    for pkg, subdict in pkgdict.iteritems():
+    for pkg, subdict in pkgdict.items():
         ddlFile = subdict['ddlfile']
         h5schemaFile = subdict['h5schema']
         filesForDispatch.append(ddlFile)
